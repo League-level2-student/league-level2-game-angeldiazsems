@@ -1,9 +1,19 @@
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.JFrame;
 public class EscapeGame {
 	
 	public static void main(String[] args) {
 		EscapeGame escape = new EscapeGame();
 		escape.setup();
+
+		String fonts[] = 
+			      GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+
+			    for (int i = 0; i < fonts.length; i++) {
+			      System.out.println(fonts[i]);
+			    }
+	
 	}
 	JFrame frame;
 	GamePanel panel;
@@ -13,13 +23,14 @@ public class EscapeGame {
 		this.panel = new GamePanel();
 	}
 
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 500;
+	public static final int WIDTH = 850;
+	public static final int HEIGHT = 550;
 	
 	
 	public void setup() {
+		frame.add(panel);
 		frame.setVisible(true);
-		frame.setSize(WIDTH,HEIGHT);
+		frame.setSize(850,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(panel);
 	}
