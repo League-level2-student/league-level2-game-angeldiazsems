@@ -1,17 +1,26 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
+public static BufferedImage image;
+public static boolean needImage = true;
+public static boolean gotImage = false;
 
+public static BufferedImage image2;
+public static boolean needImage2 = true;
+public static boolean gotImage2 = false;
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
 	
@@ -19,6 +28,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	FrameDraw = new Timer(1000/60, this);
 	FrameDraw.start();
+	
+	if (needImage) {
+	    loadImage("PrisonCell.jpg");
+	}
+	if (needImage2) {
+	    loadImage2("HomePage.jpg");
+	}
+	
 	}
 	@Override
 	public void paintComponent(Graphics g) {
@@ -36,6 +53,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
+	void loadImage(String imageFile) {
+	    if (needImage) {
+	        try {
+	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+		    gotImage = true;
+	        } catch (Exception e) {
+	            
+	        }
+	        needImage = false;
+	    }
+	}
+	void loadImage2(String imageFile) {
+	    if (needImage2) {
+	        try {
+	            image2 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+		    gotImage2 = true;
+	        } catch (Exception e) {
+	            
+	        }
+	        needImage2 = false;
+	    }
+	}
+	
+	
 	
 	final int MENU = 0;
 	final int START = 1;
@@ -45,21 +86,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int currentState = MENU;
 	
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, 800, 500);
+		//g.setColor(Color.DARK_GRAY);
+		//g.fillRect(0, 0, 800, 500);
+		if (gotImage2) {
+			g.drawImage(image2, 0, 0, 850, 550, null);
+		} 
 		g.setFont(titleFont);
 		g.setColor(Color.LIGHT_GRAY);
 		g.drawString("POUND ESCAPE", 240, 100);
 		g.drawString("Press enter to start", 200, 400);
 	}
 	void drawStartState(Graphics g) {
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(0, 0, 800, 500);
+		if (gotImage) {
+			g.drawImage(image, 0, 0, 750, 550, null);
+		} 
+		//g.setColor(Color.LIGHT_GRAY);
+		//g.fillRect(0, 0, 800, 500);
+		
 	}
 	void drawRightState(Graphics g) {
+		
 		g.setColor(Color.RED);
 		g.fillRect(0, 0, 800, 500);
-		g.drawString("RIGHT ROOM", 100, 100);
+		
 	}
 	void drawLeftState(Graphics g) {
 		g.setColor(Color.GREEN);
@@ -99,22 +148,49 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if(arg0.getKeyCode() == KeyEvent.VK_ENTER && currentState == MENU) {
 			currentState = START;
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_RIGHT && currentState == LEFT) {
-			currentState = START;
-		}
-		if(arg0.getKeyCode() == KeyEvent.VK_LEFT && currentState == RIGHT) {
-			System.out.println("e");
-			currentState = START;
-			}
+		
 		
 		
 		if(arg0.getKeyCode() == KeyEvent.VK_RIGHT && currentState == START) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			currentState = RIGHT;
+			
+		}
+		if(arg0.getKeyCode() == KeyEvent.VK_RIGHT && currentState == LEFT) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			currentState = START;
+			
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_LEFT && currentState == START) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			currentState = LEFT;
 
 		}
+		if(arg0.getKeyCode() == KeyEvent.VK_LEFT && currentState == RIGHT) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("e");
+			currentState = START;
+			}
 		
 	}
 		

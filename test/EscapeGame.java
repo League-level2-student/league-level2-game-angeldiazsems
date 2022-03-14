@@ -6,14 +6,6 @@ public class EscapeGame {
 	public static void main(String[] args) {
 		EscapeGame escape = new EscapeGame();
 		escape.setup();
-
-		String fonts[] = 
-			      GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-
-			    for (int i = 0; i < fonts.length; i++) {
-			      System.out.println(fonts[i]);
-			    }
-	
 	}
 	JFrame frame;
 	GamePanel panel;
