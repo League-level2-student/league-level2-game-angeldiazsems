@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -23,7 +24,6 @@ public static boolean needImage2 = true;
 public static boolean gotImage2 = false;
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
-	
 	GamePanel(){
 
 	FrameDraw = new Timer(1000/60, this);
@@ -76,8 +76,6 @@ public static boolean gotImage2 = false;
 	    }
 	}
 	
-	
-	
 	final int MENU = 0;
 	final int START = 1;
 	final int RIGHT = 2;
@@ -92,16 +90,15 @@ public static boolean gotImage2 = false;
 			g.drawImage(image2, 0, 0, 850, 550, null);
 		} 
 		g.setFont(titleFont);
+		g.setColor(Color.white);
+		g.drawString("POUND ESCAPE", 260, 200);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString("POUND ESCAPE", 240, 100);
-		g.drawString("Press enter to start", 200, 400);
+		g.drawString("Press enter to start", 230, 500);
 	}
 	void drawStartState(Graphics g) {
 		if (gotImage) {
-			g.drawImage(image, 0, 0, 750, 550, null);
+			g.drawImage(image, 0, 0, 850, 550, null);
 		} 
-		//g.setColor(Color.LIGHT_GRAY);
-		//g.fillRect(0, 0, 800, 500);
 		
 	}
 	void drawRightState(Graphics g) {
@@ -124,6 +121,11 @@ public static boolean gotImage2 = false;
 	 void updateMenuState() {
 	}
 	 
+	 public void mousePressed(MouseEvent m) {
+			int mouseX = m.getX();
+			int mouseY = m.getY();
+			System.out.println(mouseX+" , "+mouseY);
+		}
 	 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -138,6 +140,7 @@ public static boolean gotImage2 = false;
 		else if(currentState == LEFT){
 		    updateLeftState();
 		}
+		mousePressed(MouseEvent);
 		repaint();
 	}
 	
@@ -190,24 +193,24 @@ public static boolean gotImage2 = false;
 			}
 			System.out.println("e");
 			currentState = START;
-			}
-		
+		}
 	}
-		
-
 	
-
+	
+	
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stud		
 		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 
+		// TODO Auto-generated method stub
+	}
+
+	
+	
 }
