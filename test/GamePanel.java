@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,8 +9,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -24,6 +29,8 @@ public static boolean needImage2 = true;
 public static boolean gotImage2 = false;
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
+	
+	
 	GamePanel(){
 
 	FrameDraw = new Timer(1000/60, this);
@@ -75,6 +82,7 @@ public static boolean gotImage2 = false;
 	        needImage2 = false;
 	    }
 	}
+
 	
 	final int MENU = 0;
 	final int START = 1;
@@ -84,8 +92,8 @@ public static boolean gotImage2 = false;
 	int currentState = MENU;
 	
 	void drawMenuState(Graphics g) {
-		//g.setColor(Color.DARK_GRAY);
-		//g.fillRect(0, 0, 800, 500);
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect(0, 0, 850, 550);
 		if (gotImage2) {
 			g.drawImage(image2, 0, 0, 850, 550, null);
 		} 
@@ -104,12 +112,12 @@ public static boolean gotImage2 = false;
 	void drawRightState(Graphics g) {
 		
 		g.setColor(Color.RED);
-		g.fillRect(0, 0, 800, 500);
+		g.fillRect(0, 0, 850, 550);
 		
 	}
 	void drawLeftState(Graphics g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, 800, 500);
+		g.fillRect(0, 0, 850, 550);
 		g.drawString("LEFT ROOM", 50, 100);
 	}
 	void updateLeftState() {		
@@ -121,11 +129,8 @@ public static boolean gotImage2 = false;
 	 void updateMenuState() {
 	}
 	 
-	 public void mousePressed(MouseEvent m) {
-			int mouseX = m.getX();
-			int mouseY = m.getY();
-			System.out.println(mouseX+" , "+mouseY);
-		}
+	
+	 
 	 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -140,8 +145,10 @@ public static boolean gotImage2 = false;
 		else if(currentState == LEFT){
 		    updateLeftState();
 		}
-		mousePressed(MouseEvent);
-		repaint();
+		 int mouseY = MouseInfo.getPointerInfo().getLocation().y; 
+		 int mouseX = MouseInfo.getPointerInfo().getLocation().x;
+	//	System.out.println(mouseX+" , "+mouseY);
+			repaint();
 	}
 	
 	
@@ -194,8 +201,17 @@ public static boolean gotImage2 = false;
 			System.out.println("e");
 			currentState = START;
 		}
+		
+		if(arg0.getKeyCode() == MouseEvent.MOUSE_PRESSED) {
+			System.out.println("TEST");
+}
+		
+		
+		
+		
 	}
 	
+
 	
 	
 	@Override
