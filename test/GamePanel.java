@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
@@ -18,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 
 public static BufferedImage image;
 public static boolean needImage = true;
@@ -202,9 +203,7 @@ public static boolean gotImage2 = false;
 			currentState = START;
 		}
 		
-		if(arg0.getKeyCode() == MouseEvent.MOUSE_PRESSED) {
-			System.out.println("TEST");
-}
+		
 		
 		
 		
@@ -221,12 +220,38 @@ public static boolean gotImage2 = false;
 		
 	}
 
+	
 	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		System.out.println(arg0.getLocationOnScreen());
+		int x = arg0.getX();
+		if(arg0.MOUSE_PRESSED == MouseEvent.MOUSE_PRESSED && x == 19 ) {
+			System.out.println("TEST");
+
+		}
+	}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	public void keyTyped(KeyEvent arg0) {
 
 		// TODO Auto-generated method stub
 	}
-
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent arg0) {
 	
-	
+	}
 }

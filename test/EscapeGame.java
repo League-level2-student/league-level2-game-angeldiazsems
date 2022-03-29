@@ -25,5 +25,6 @@ public class EscapeGame {
 		frame.setSize(850,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(panel);
+		frame.addMouseListener(panel);
 	}
 }
