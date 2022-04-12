@@ -1,6 +1,8 @@
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 public class EscapeGame {
 	
@@ -14,12 +16,12 @@ public class EscapeGame {
 	EscapeGame() {
 		this.frame = new JFrame();
 		this.panel = new GamePanel();
+		
 	}
 
 	public static final int WIDTH = 850;
 	public static final int HEIGHT = 550;
-	
-	
+
 	public void setup() {
 		frame.add(panel);
 		frame.setVisible(true);

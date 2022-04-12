@@ -30,7 +30,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public static BufferedImage image2;
 	public static boolean needImage2 = true;
 	public static boolean gotImage2 = false;
+	
+	public static BufferedImage image3;
+	public static boolean needImage3 = true;
+	public static boolean gotImage3 = false;
+	
+	public static BufferedImage image4;
+	public static boolean needImage4 = true;
+	public static boolean gotImage4 = false;
 
+	public static BufferedImage image5;
+	public static boolean needImage5 = true;
+	public static boolean gotImage5 = false;
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
 
@@ -45,7 +56,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (needImage2) {
 			loadImage2("HomePage.jpg");
 		}
-
+		if (needImage3) {
+			loadImage3("PrisonDoor2.jpg");
+		}
+		if (needImage4) {
+			loadImage4("stepsDown.jpg");
+		}
+		if (needImage5) {
+			loadImage5("SpiltHallway.png");
+		}
 	}
 
 	@Override
@@ -61,6 +80,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		if (currentState == LEFT) {
 			drawLeftState(g);
+		}
+		if(currentState == STEPS) {
+			drawStepState(g);
+		}
+		if (currentState == HALLWAY) {
+			drawHallState(g);
 		}
 	}
 
@@ -87,12 +112,49 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			needImage2 = false;
 		}
 	}
+	void loadImage3(String imageFile) {
+		if (needImage3) {
+			try {
+				image3 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage3 = true;
+			} catch (Exception e) {
 
+			}
+			needImage3 = false;
+		}
+	}
+	void loadImage4(String imageFile) {
+		if (needImage4) {
+			try {
+				image4 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage4 = true;
+			} catch (Exception e) {
+
+			}
+			needImage4 = false;
+		}
+	}
+	void loadImage5(String imageFile) {
+		if (needImage5) {
+			try {
+				image5 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage5 = true;
+			} catch (Exception e) {
+
+			}
+			needImage5 = false;
+		}
+	}
 	final int MENU = 0;
 	final int START = 1;
 	final int RIGHT = 2;
 	final int LEFT = 3;
-
+	final int STEPS = 4;
+	final int HALLWAY = 5;
+	
+	
+	
+	
 	int currentState = MENU;
 
 	void drawMenuState(Graphics g) {
@@ -116,9 +178,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	void drawRightState(Graphics g) {
+		if (gotImage3) {
+			g.drawImage(image3, 0, 0, 850, 550, null);
+		}
 
-		g.setColor(Color.RED);
-		g.fillRect(0, 0, 850, 550);
 
 	}
 
@@ -126,6 +189,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(Color.GREEN);
 		g.fillRect(0, 0, 850, 550);
 		g.drawString("LEFT ROOM", 50, 100);
+	}
+	void drawStepState(Graphics g) {
+		g.setColor(Color.green);
+		g.fillRect(0, 0, 850, 550);
+		
+	}
+	void drawHallState(Graphics g) {
+		if (gotImage5) {
+			g.drawImage(image5, 0, 0, 850, 550, null);
+		}
 	}
 
 	void updateLeftState() {
@@ -139,7 +212,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	void updateMenuState() {
 	}
-
+	void updateStepState() {
+	}
+	void updateHallState() {
+	
+}
+		
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
@@ -151,6 +230,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			updateRightState();
 		} else if (currentState == LEFT) {
 			updateLeftState();
+		}
+		else if (currentState == STEPS) {
+			updateStepState();
+		}
+		else if(currentState == HALLWAY) {
+			updateHallState();
 		}
 		repaint();
 	}
@@ -201,6 +286,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			currentState = START;
 		}
+		
+		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == RIGHT) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			currentState = STEPS;
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == STEPS) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			currentState = HALLWAY;
+		}
+		
+		
 	}
 
 	@Override
@@ -210,31 +316,49 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	}
 
+	int underBed = 0;
+	int key = 0;
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		System.out.println(arg0.getLocationOnScreen());
 		int x = arg0.getX();
 		int y = arg0.getY();
-		
-		if (arg0.MOUSE_PRESSED == MouseEvent.MOUSE_PRESSED) {
-			//if (x < 433 && x > 2 && y > 495 && y < 576) {
-			//	System.out.println("e");
-			//}
-		
-			if(x < 180 || x > 12 && y > 493 && y < 570) {
-				System.out.println("s");
+			if (currentState == START) {
+				if (x < 180 || x > 12 && y > 493 && y < 570) {
+					System.out.println("s");
+					if (underBed == 0) {
+						underBed = 1;
+						JOptionPane.showMessageDialog(null, "Under the bed you find a key");
+						key = 1;
+					}
+				}
+				if (x > 180 && x < 436 && y > 455 && y < 570) {
+					System.out.println("S");
+					if (underBed == 0) {
+						underBed = 1;
+						JOptionPane.showMessageDialog(null, "Under the bed you find a key");
+						key = 1;
+					}
+				}
 			}
-			if(x > 180 && x < 436 && y > 455 && y < 570) {
-				System.out.println("S");
+			if(currentState == RIGHT) {
+				if(x < 719 && x > 127 && y < 510 && y > 64) {
+					if(key == 1) {
+					JOptionPane.showMessageDialog(null, "The key unlocks the door (up arrow to go through");
+					}
+					if(key == 0) {
+					JOptionPane.showMessageDialog(null, "The door is locked.. You need a key..");
+					}
+				}
 			}
 			
-			
-		}
-//Bottom left: 2, 552
-//Bottom right: 210, 576
-//Top right: 433, 511
-//Top left: 276, 495
+//Y IS ALWAYS -20
+		
+//Bottom left: 526, 341
+//Bottom right: 687, 342
+//Top right: 691, 300
+//Top left: 526, 296
 
 	}
 
