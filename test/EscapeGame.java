@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 public class EscapeGame {
 	
 	public static void main(String[] args) {
@@ -29,5 +30,6 @@ public class EscapeGame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(panel);
 		frame.addMouseListener(panel);
+
 	}
 }

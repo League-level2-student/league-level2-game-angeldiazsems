@@ -325,23 +325,31 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		int x = arg0.getX();
 		int y = arg0.getY();
 			if (currentState == START) {
-				if (x < 180 || x > 12 && y > 493 && y < 570) {
+				if (x < 180 && x > 12 && y > 473 && y < 550|| x > 180 && x < 436 && y > 455 && y < 570) {
 					System.out.println("s");
 					if (underBed == 0) {
 						underBed = 1;
-						JOptionPane.showMessageDialog(null, "Under the bed you find a key");
-						key = 1;
+						JOptionPane.showMessageDialog(null, "Under the bed you find a mouse with a key. "
+								+ "\n\"If you want my key, you'll have to answer my riddle!! \"");
+						String input = JOptionPane.showInputDialog("JASON IS DEAD."
+								+ "\nHE HAS AN IRON BAR ACROSS HIS BACK AND THERE IS SOME FOOD IN FRONT OF HIM."
+								+ "\nWHAT DID THIS TO HIM?");
+						
+							if(input.equals("A mousetrap")|| input.equals("a mousetrap")||input.equals("Mousetrap")||input.equals("mousetrap")) {
+								JOptionPane.showMessageDialog(null, "Correct! Here you go (the mouse gives you the key)");
+								key = 1;
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "WRONG");
+								underBed = 0;
+							}
+							
 					}
-				}
-				if (x > 180 && x < 436 && y > 455 && y < 570) {
-					System.out.println("S");
-					if (underBed == 0) {
-						underBed = 1;
-						JOptionPane.showMessageDialog(null, "Under the bed you find a key");
-						key = 1;
-					}
-				}
+
 			}
+			
+			}
+			
 			if(currentState == RIGHT) {
 				if(x < 719 && x > 127 && y < 510 && y > 64) {
 					if(key == 1) {
