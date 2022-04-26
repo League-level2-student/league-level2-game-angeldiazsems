@@ -63,7 +63,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			loadImage4("stepsDown.jpg");
 		}
 		if (needImage5) {
-			loadImage5("SpiltHallway.png");
+			loadImage5("hall3.jpg");
 		}
 	}
 
@@ -166,9 +166,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setFont(titleFont);
 		g.setColor(Color.white);
 		g.drawString("POUND ESCAPE", 260, 200);
-		g.setColor(Color.LIGHT_GRAY);
+		g.setColor(Color.GRAY);
 		g.drawString("Press enter to start", 230, 500);
+		g.setColor(Color.LIGHT_GRAY);
+		g.drawString("Press space for instructions", 140, 396);
+
+		
 	}
+	
 
 	void drawStartState(Graphics g) {
 		if (gotImage) {
@@ -181,8 +186,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (gotImage3) {
 			g.drawImage(image3, 0, 0, 850, 550, null);
 		}
-
-
 	}
 
 	void drawLeftState(Graphics g) {
@@ -191,8 +194,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.drawString("LEFT ROOM", 50, 100);
 	}
 	void drawStepState(Graphics g) {
-		g.setColor(Color.green);
-		g.fillRect(0, 0, 850, 550);
+		if(gotImage4) {
+			g.drawImage(image4, 0,0, 850,550, null);
+			g.setColor(Color.white);
+			g.drawString("(down arrow)", 200, 500);
+		}
 		
 	}
 	void drawHallState(Graphics g) {
@@ -243,6 +249,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
+		if(key ==1) {
+		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == RIGHT) {
+			currentState = STEPS;
+			System.out.println("steps");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+		}
+		}
+		
+		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && currentState == MENU) {
+			JOptionPane.showMessageDialog(null, "Click around different rooms to find items"
+					+ " \n Use the RIGHT and LEFT arrow keys to switch rooms.");
+		}
 		if (arg0.getKeyCode() == KeyEvent.VK_ENTER && currentState == MENU) {
 			currentState = START;
 		}
@@ -287,16 +312,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			currentState = START;
 		}
 		
-		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == RIGHT) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			currentState = STEPS;
-		}
-		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == STEPS) {
+		if (arg0.getKeyCode() == KeyEvent.VK_DOWN && currentState == STEPS) {
+			System.out.println("hall");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -305,6 +322,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			currentState = HALLWAY;
 		}
+		
 		
 		
 	}
