@@ -23,25 +23,14 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 
-	public static BufferedImage image;
-	public static boolean needImage = true;
-	public static boolean gotImage = false;
-
-	public static BufferedImage image2;
-	public static boolean needImage2 = true;
-	public static boolean gotImage2 = false;
+	ImageLoader cell = new ImageLoader("PrisonCell.jpg");
+	ImageLoader menu = new ImageLoader("HomePage.jpg");
+	ImageLoader vent = new ImageLoader("DOG WITH BOWL.png");
+	ImageLoader celldoor = new ImageLoader("PrisonDoor.jpg");
+	ImageLoader steps = new ImageLoader("stepsDown.jpg");
+	ImageLoader hall = new ImageLoader("hall.jpg");
 	
-	public static BufferedImage image3;
-	public static boolean needImage3 = true;
-	public static boolean gotImage3 = false;
-	
-	public static BufferedImage image4;
-	public static boolean needImage4 = true;
-	public static boolean gotImage4 = false;
 
-	public static BufferedImage image5;
-	public static boolean needImage5 = true;
-	public static boolean gotImage5 = false;
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
 
@@ -49,22 +38,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		FrameDraw = new Timer(1000 / 60, this);
 		FrameDraw.start();
-
-		if (needImage) {
-			loadImage("PrisonCell.jpg");
-		}
-		if (needImage2) {
-			loadImage2("HomePage.jpg");
-		}
-		if (needImage3) {
-			loadImage3("PrisonDoor2.jpg");
-		}
-		if (needImage4) {
-			loadImage4("stepsDown.jpg");
-		}
-		if (needImage5) {
-			loadImage5("hall3.jpg");
-		}
 	}
 
 	@Override
@@ -89,79 +62,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 	}
 
-	void loadImage(String imageFile) {
-		if (needImage) {
-			try {
-				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-				gotImage = true;
-			} catch (Exception e) {
-
-			}
-			needImage = false;
-		}
-	}
-
-	void loadImage2(String imageFile) {
-		if (needImage2) {
-			try {
-				image2 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-				gotImage2 = true;
-			} catch (Exception e) {
-
-			}
-			needImage2 = false;
-		}
-	}
-	void loadImage3(String imageFile) {
-		if (needImage3) {
-			try {
-				image3 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-				gotImage3 = true;
-			} catch (Exception e) {
-
-			}
-			needImage3 = false;
-		}
-	}
-	void loadImage4(String imageFile) {
-		if (needImage4) {
-			try {
-				image4 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-				gotImage4 = true;
-			} catch (Exception e) {
-
-			}
-			needImage4 = false;
-		}
-	}
-	void loadImage5(String imageFile) {
-		if (needImage5) {
-			try {
-				image5 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-				gotImage5 = true;
-			} catch (Exception e) {
-
-			}
-			needImage5 = false;
-		}
-	}
 	final int MENU = 0;
 	final int START = 1;
 	final int RIGHT = 2;
 	final int LEFT = 3;
 	final int STEPS = 4;
 	final int HALLWAY = 5;
-	
-	
-	
-	
+
 	int currentState = MENU;
 
 	void drawMenuState(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, 850, 550);
-		if (gotImage2) {
-			g.drawImage(image2, 0, 0, 850, 550, null);
+		if (menu.gotImage) {
+			g.drawImage(menu.image, 0, 0, 850, 550, null);
 		}
 		g.setFont(titleFont);
 		g.setColor(Color.white);
@@ -176,34 +90,33 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	
 
 	void drawStartState(Graphics g) {
-		if (gotImage) {
-			g.drawImage(image, 0, 0, 850, 550, null);
+		if (cell.gotImage) {
+			g.drawImage(cell.image, 0, 0, 850, 550, null);
 		}
 
 	}
 
 	void drawRightState(Graphics g) {
-		if (gotImage3) {
-			g.drawImage(image3, 0, 0, 850, 550, null);
+		if (celldoor.gotImage) {
+			g.drawImage(celldoor.image, 0, 0, 850, 550, null);
 		}
 	}
 
 	void drawLeftState(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, 850, 550);
-		g.drawString("LEFT ROOM", 50, 100);
+		if(vent.gotImage)
+			g.drawImage(vent.image,0, 0, 850, 550, null);
 	}
 	void drawStepState(Graphics g) {
-		if(gotImage4) {
-			g.drawImage(image4, 0,0, 850,550, null);
+		if(steps.gotImage) {
+			g.drawImage(steps.image, 0,0, 850,550, null);
 			g.setColor(Color.white);
 			g.drawString("(down arrow)", 200, 500);
 		}
 		
 	}
 	void drawHallState(Graphics g) {
-		if (gotImage5) {
-			g.drawImage(image5, 0, 0, 850, 550, null);
+		if (hall.gotImage) {
+			g.drawImage(hall.image, 0, 0, 850, 550, null);
 		}
 	}
 

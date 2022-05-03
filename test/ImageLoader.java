@@ -3,27 +3,29 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-public class ImageLoader extends GamePanel{
+public class ImageLoader {
 
-	public static BufferedImage image5;
-	public static boolean needImage5 = true;
-	public static boolean gotImage5 = false;
-	ImageLoader(){
-
+	public BufferedImage image;
+	public boolean needImage = true;
+	public boolean gotImage = false;
+	ImageLoader(String image){
+		if (needImage) {
+			loadImage(image);
+		}
 	}
-	
-	
-	void loadImage5(String imageFile) {
-		if (needImage5) {
+
+	void loadImage(String imageFile) {
+		if (needImage) {
 			try {
-				image5 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-				gotImage5 = true;
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage = true;
 			} catch (Exception e) {
 
 			}
-			needImage5 = false;
+			needImage = false;
 		}
 	}
+	
 }
 	
 	
