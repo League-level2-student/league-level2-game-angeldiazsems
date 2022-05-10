@@ -23,13 +23,13 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 
-	ImageLoader cell = new ImageLoader("PrisonCell.jpg");
+	ImageLoader cell = new ImageLoader("cell with box.png");
 	ImageLoader menu = new ImageLoader("HomePage.jpg");
-	ImageLoader vent = new ImageLoader("DOG WITH BOWL.png");
+	ImageLoader dog = new ImageLoader("DOG WITH BOWL.png");
 	ImageLoader celldoor = new ImageLoader("PrisonDoor.jpg");
 	ImageLoader steps = new ImageLoader("stepsDown.jpg");
 	ImageLoader hall = new ImageLoader("hall.jpg");
-	
+	ImageLoader vent = new ImageLoader("InsideVent.png");
 
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
@@ -60,6 +60,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (currentState == HALLWAY) {
 			drawHallState(g);
 		}
+		if(currentState == VENT) {
+			drawVentState(g);
+		}
 	}
 
 	final int MENU = 0;
@@ -68,7 +71,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	final int LEFT = 3;
 	final int STEPS = 4;
 	final int HALLWAY = 5;
-
+	final int VENT = 6;
+	
+	
 	int currentState = MENU;
 
 	void drawMenuState(Graphics g) {
@@ -103,8 +108,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	void drawLeftState(Graphics g) {
-		if(vent.gotImage)
-			g.drawImage(vent.image,0, 0, 850, 550, null);
+		if(dog.gotImage)
+			g.drawImage(dog.image,0, 0, 850, 550, null);
 	}
 	void drawStepState(Graphics g) {
 		if(steps.gotImage) {
@@ -119,43 +124,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			g.drawImage(hall.image, 0, 0, 850, 550, null);
 		}
 	}
-
-	void updateLeftState() {
+	void drawVentState(Graphics g) {
+		if(vent.gotImage) {
+			g.drawImage(vent.image, 0, 0, 850, 550, null);
+			g.setColor(Color.WHITE);
+			g.drawString("(down arrow to get back)", 200, 200);
+		}
 	}
 
-	void updateRightState() {
-	}
-
-	void updateStartState() {
-	}
-
-	void updateMenuState() {
-	}
-	void updateStepState() {
-	}
-	void updateHallState() {
-	
-}
-		
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		if (currentState == MENU) {
-			updateMenuState();
-		} else if (currentState == START) {
-			updateStartState();
-		} else if (currentState == RIGHT) {
-			updateRightState();
-		} else if (currentState == LEFT) {
-			updateLeftState();
-		}
-		else if (currentState == STEPS) {
-			updateStepState();
-		}
-		else if(currentState == HALLWAY) {
-			updateHallState();
-		}
 		repaint();
 	}
 
@@ -235,7 +215,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			currentState = HALLWAY;
 		}
-		
+		if(arg0.getKeyCode() == KeyEvent.VK_DOWN && currentState == VENT) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			currentState = LEFT;
+		}
 		
 		
 	}
@@ -246,7 +234,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stud
 
 	}
-
+	int hat = 0;
 	int underBed = 0;
 	int key = 0;
 	@Override
@@ -256,11 +244,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		int x = arg0.getX();
 		int y = arg0.getY();
 			if (currentState == START) {
-				if (x < 180 && x > 12 && y > 473 && y < 550|| x > 180 && x < 436 && y > 455 && y < 570) {
+				if(x>=55&&x<=168&&y>=441&&y<=504) {
+					JOptionPane.showMessageDialog(null, "Inside the box you find a old dog toy.");
+					int hat = 1;
+				}
+				if (x>=713&&x<=784&&y>=410&&y<=764) {
 					System.out.println("s");
 					if (underBed == 0) {
 						underBed = 1;
-						JOptionPane.showMessageDialog(null, "Under the bed you find a mouse with a key. "
+						JOptionPane.showMessageDialog(null, "In the mousehole you find a mouse with a key. "
 								+ "\n\"If you want my key, you'll have to answer my riddle!! \"");
 						String input = JOptionPane.showInputDialog("JASON IS DEAD."
 								+ "\nHE HAS AN IRON BAR ACROSS HIS BACK AND THERE IS SOME FOOD IN FRONT OF HIM."
@@ -289,6 +281,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					if(key == 0) {
 					JOptionPane.showMessageDialog(null, "The door is locked.. You need a key..");
 					}
+				}
+			}
+			if(currentState == LEFT) {
+				if(x>=54&&x<=131&&y>=110&&y<=180) {
+					System.out.println("J");
+					currentState = VENT;
+				}
+				if(x>=12&&x<=197&&y>=327&&y<=573) {
+					JOptionPane.showMessageDialog(null, "Psst... Can you do me a favor?"
+							+ "\n");
+				}
+				
+				
+				
+			}
+			if(currentState == VENT) {
+				if(x>=267&&x<=346&&y>=415&&y<=453) {
+					JOptionPane.showMessageDialog(null, "A mouse caught in a mousetrap..."
+							+ "\nA little sign says that its name is Jason.");
 				}
 			}
 			
