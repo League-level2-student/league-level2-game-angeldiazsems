@@ -33,3 +33,5 @@ public class EscapeGame {
 
 	}
 }
+//615 = 642
+//550 = 577

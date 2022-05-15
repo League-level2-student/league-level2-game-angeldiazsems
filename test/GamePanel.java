@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
-
+	Font small = new Font("Utopia", Font.PLAIN, 40);
 	GamePanel() {
 
 		FrameDraw = new Timer(1000 / 60, this);
@@ -77,43 +77,41 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	int currentState = MENU;
 
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, 850, 550);
 		if (menu.gotImage) {
-			g.drawImage(menu.image, 0, 0, 850, 550, null);
+			g.drawImage(menu.image, 0, 0, 850, 515, null);
 		}
 		g.setFont(titleFont);
 		g.setColor(Color.white);
 		g.drawString("POUND ESCAPE", 260, 200);
 		g.setColor(Color.GRAY);
 		g.drawString("Press enter to start", 230, 500);
+		g.setFont(small);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString("Press space for instructions", 140, 396);
-
+		g.drawString("Press space for instructions & backstory", 60, 371);
 		
 	}
 	
 
 	void drawStartState(Graphics g) {
 		if (cell.gotImage) {
-			g.drawImage(cell.image, 0, 0, 850, 550, null);
+			g.drawImage(cell.image, 0, 0, 850, 515, null);
 		}
 
 	}
 
 	void drawRightState(Graphics g) {
 		if (celldoor.gotImage) {
-			g.drawImage(celldoor.image, 0, 0, 850, 550, null);
+			g.drawImage(celldoor.image, 0, 0, 850, 515, null);
 		}
 	}
 
 	void drawLeftState(Graphics g) {
 		if(dog.gotImage)
-			g.drawImage(dog.image,0, 0, 850, 550, null);
+			g.drawImage(dog.image,0, 0, 850, 515, null);
 	}
 	void drawStepState(Graphics g) {
 		if(steps.gotImage) {
-			g.drawImage(steps.image, 0,0, 850,550, null);
+			g.drawImage(steps.image, 0,0, 850,515, null);
 			g.setColor(Color.white);
 			g.drawString("(down arrow)", 200, 500);
 		}
@@ -121,12 +119,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 	void drawHallState(Graphics g) {
 		if (hall.gotImage) {
-			g.drawImage(hall.image, 0, 0, 850, 550, null);
+			g.drawImage(hall.image, 0, 0, 850, 515, null);
 		}
 	}
 	void drawVentState(Graphics g) {
 		if(vent.gotImage) {
-			g.drawImage(vent.image, 0, 0, 850, 550, null);
+			g.drawImage(vent.image, 0, 0, 850, 515, null);
 			g.setColor(Color.WHITE);
 			g.drawString("(down arrow to get back)", 200, 200);
 		}
@@ -158,8 +156,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && currentState == MENU) {
+			
+			JOptionPane.showMessageDialog(null, "You are a lonely dog who has been kidnapped and taken to the pound!"
+					+ "\nYou get fed rarely and the cells are dirty, but the guards couldn't care less..","BACKSTORY",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "However there is still hope..."
+					+ "\nThere are rumors that another dog has managed to escape,"
+					+ "\nAnd if they can do it you can do it!"
+					+ "\nIt's time to get out of this place!","BACKSTORY",JOptionPane.INFORMATION_MESSAGE);
 			JOptionPane.showMessageDialog(null, "Click around different rooms to find items"
-					+ " \n Use the RIGHT and LEFT arrow keys to switch rooms.");
+					+ " \n Use the RIGHT and LEFT arrow keys to switch rooms.","INSTRUCTIONS",JOptionPane.WARNING_MESSAGE);
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_ENTER && currentState == MENU) {
 			currentState = START;
@@ -234,7 +239,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stud
 
 	}
-	int hat = 0;
+	int screw = 0;
 	int underBed = 0;
 	int key = 0;
 	@Override
@@ -244,26 +249,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		int x = arg0.getX();
 		int y = arg0.getY();
 			if (currentState == START) {
-				if(x>=55&&x<=168&&y>=441&&y<=504) {
-					JOptionPane.showMessageDialog(null, "Inside the box you find a old dog toy.");
-					int hat = 1;
+				if(x>=55&&x<=168&&y>=401&&y<=464) {
+					int screw = 1;
+					JOptionPane.showMessageDialog(null, "Inside the box you find a screwdriver.","Item",JOptionPane.INFORMATION_MESSAGE);
+					
 				}
-				if (x>=713&&x<=784&&y>=410&&y<=764) {
+				if (x>=713&&x<=784&&y>=410&&y<=464) {
 					System.out.println("s");
 					if (underBed == 0) {
 						underBed = 1;
 						JOptionPane.showMessageDialog(null, "In the mousehole you find a mouse with a key. "
-								+ "\n\"If you want my key, you'll have to answer my riddle!! \"");
+								+ "\n\"If you want my key, you'll have to answer my riddle!! \"","Mouse",JOptionPane.INFORMATION_MESSAGE);
 						String input = JOptionPane.showInputDialog("JASON IS DEAD."
 								+ "\nHE HAS AN IRON BAR ACROSS HIS BACK AND THERE IS SOME FOOD IN FRONT OF HIM."
 								+ "\nWHAT DID THIS TO HIM?");
 						
 							if(input.equals("A mousetrap")|| input.equals("a mousetrap")||input.equals("Mousetrap")||input.equals("mousetrap")) {
-								JOptionPane.showMessageDialog(null, "Correct! Here you go (the mouse gives you the key)");
+								JOptionPane.showMessageDialog(null, "Correct! Here you go (the mouse gives you the key)","Mouse",JOptionPane.INFORMATION_MESSAGE);
 								key = 1;
 							}
 							else {
-								JOptionPane.showMessageDialog(null, "WRONG");
+								JOptionPane.showMessageDialog(null, "WRONG","Mouse",JOptionPane.ERROR_MESSAGE);
 								underBed = 0;
 							}
 							
@@ -279,7 +285,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					JOptionPane.showMessageDialog(null, "The key unlocks the door (up arrow to go through");
 					}
 					if(key == 0) {
-					JOptionPane.showMessageDialog(null, "The door is locked.. You need a key..");
+					JOptionPane.showMessageDialog(null, "The door is locked.. You need a key..","Door",JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
@@ -289,17 +295,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					currentState = VENT;
 				}
 				if(x>=12&&x<=197&&y>=327&&y<=573) {
+					System.out.println("J");
 					JOptionPane.showMessageDialog(null, "Psst... Can you do me a favor?"
-							+ "\n");
+							+ "\nI'm looking for an screwdriver.. If you find one let me know","Mystery Dog",JOptionPane.QUESTION_MESSAGE);
+					if(screw == 0) {
+						JOptionPane.showMessageDialog(null, "Oh you have one! Thanks, you won't regret it","Mystery Dog",JOptionPane.INFORMATION_MESSAGE);
+					}
+					
 				}
-				
 				
 				
 			}
 			if(currentState == VENT) {
-				if(x>=267&&x<=346&&y>=415&&y<=453) {
-					JOptionPane.showMessageDialog(null, "A mouse caught in a mousetrap..."
-							+ "\nA little sign says that its name is Jason.");
+				if(x>=259&&x<=356&&y>=416&&y<=454) {
+					System.out.println("J");
+
+					//JOptionPane.showMessageDialog(null, "A mouse caught in a mousetrap..."
+						//	+ "\nA little sign says that its name is Jason.",Mousetrap,"JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 			
@@ -317,24 +329,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 
 	}
-
 	public void keyTyped(KeyEvent arg0) {
 
 		// TODO Auto-generated method stub
 	}
-
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
-
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
-
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 
