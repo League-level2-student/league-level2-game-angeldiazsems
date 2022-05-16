@@ -22,14 +22,13 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
-
 	ImageLoader cell = new ImageLoader("cell with box.png");
 	ImageLoader menu = new ImageLoader("HomePage.jpg");
 	ImageLoader dog = new ImageLoader("DOG WITH BOWL.png");
-	ImageLoader celldoor = new ImageLoader("PrisonDoor.jpg");
+	ImageLoader celldoor = new ImageLoader("door2.png");
 	ImageLoader steps = new ImageLoader("stepsDown.jpg");
-	ImageLoader hall = new ImageLoader("hall.jpg");
-	ImageLoader vent = new ImageLoader("InsideVent.png");
+	ImageLoader hall = new ImageLoader("board door.png");
+	ImageLoader vent = new ImageLoader("Vent with paper.png");
 
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
@@ -240,8 +239,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	}
 	int screw = 0;
+	int bone = 0;
+	int code = 0;
 	int underBed = 0;
 	int key = 0;
+	int crowbar =0;
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -250,11 +252,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		int y = arg0.getY();
 			if (currentState == START) {
 				if(x>=55&&x<=168&&y>=401&&y<=464) {
-					int screw = 1;
+					screw = 1;
 					JOptionPane.showMessageDialog(null, "Inside the box you find a screwdriver.","Item",JOptionPane.INFORMATION_MESSAGE);
 					
 				}
-				if (x>=713&&x<=784&&y>=410&&y<=464) {
+				if (x>713&&x<784&&y>390&&y<444) {
 					System.out.println("s");
 					if (underBed == 0) {
 						underBed = 1;
@@ -278,28 +280,40 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			
 			}
-			
 			if(currentState == RIGHT) {
-				if(x < 719 && x > 127 && y < 510 && y > 64) {
+				if(x <= 718 && x >= 125 && y <= 482 && y >= 6) {
 					if(key == 1) {
-					JOptionPane.showMessageDialog(null, "The key unlocks the door (up arrow to go through");
+					JOptionPane.showMessageDialog(null, "The key unlocks the door(up arrow to go through)");
 					}
 					if(key == 0) {
 					JOptionPane.showMessageDialog(null, "The door is locked.. You need a key..","Door",JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
+				if(x<=810&&x>=707&&y<=534&&y>=498) {
+					bone = 1;
+					JOptionPane.showMessageDialog(null, "You find a bone.","Item",JOptionPane.INFORMATION_MESSAGE);
+				}
+			
 			}
 			if(currentState == LEFT) {
 				if(x>=54&&x<=131&&y>=110&&y<=180) {
-					System.out.println("J");
-					currentState = VENT;
+					if(screw==0) {
+						JOptionPane.showMessageDialog(null, "You can't open the vent, you probably need a screwdriver.","Vent",JOptionPane.INFORMATION_MESSAGE);
+
+					}
+					if(screw==1) {
+						JOptionPane.showMessageDialog(null, "The screwdriver opened the vent","Vent",JOptionPane.INFORMATION_MESSAGE);
+						currentState = VENT;
+
+					}
 				}
 				if(x>=12&&x<=197&&y>=327&&y<=573) {
-					System.out.println("J");
 					JOptionPane.showMessageDialog(null, "Psst... Can you do me a favor?"
-							+ "\nI'm looking for an screwdriver.. If you find one let me know","Mystery Dog",JOptionPane.QUESTION_MESSAGE);
-					if(screw == 0) {
-						JOptionPane.showMessageDialog(null, "Oh you have one! Thanks, you won't regret it","Mystery Dog",JOptionPane.INFORMATION_MESSAGE);
+							+ "\nI'm looking for a bone.. If you find it let me know","Mystery Dog",JOptionPane.QUESTION_MESSAGE);
+					if(bone == 1) {
+						JOptionPane.showMessageDialog(null, "Oh you have it! Here take this crowbar that I happen to have :)","Mystery Dog",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "You recived a crowbar from the dog.","Mystery Dog",JOptionPane.INFORMATION_MESSAGE);
+						crowbar = 1;
 					}
 					
 				}
@@ -307,11 +321,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				
 			}
 			if(currentState == VENT) {
-				if(x>=259&&x<=356&&y>=416&&y<=454) {
-					System.out.println("J");
-
-					//JOptionPane.showMessageDialog(null, "A mouse caught in a mousetrap..."
-						//	+ "\nA little sign says that its name is Jason.",Mousetrap,"JOptionPane.INFORMATION_MESSAGE);
+				if(x>=529&&x<=579&&y>=307&&y<=340) {
+					JOptionPane.showMessageDialog(null, "A paper note that says:"
+							+ "\n7362");
+						
+				}
+			}
+			if(currentState == HALLWAY) {
+				if(x>275&&x<570&&y>87&&y<436) {
+					if(crowbar ==1) {
+						JOptionPane.showMessageDialog(null, "The crowbar broke the boards!","Door",JOptionPane.INFORMATION_MESSAGE);
+					}
+					if(crowbar ==0) {
+						JOptionPane.showMessageDialog(null, "You need something to break the boards","Door",JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
 			
