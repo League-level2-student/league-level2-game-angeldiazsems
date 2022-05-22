@@ -168,7 +168,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (arg0.getKeyCode() == KeyEvent.VK_ENTER && currentState == MENU) {
 			currentState = START;
 		}
-
+		if(arg0.getKeyCode()==KeyEvent.VK_H && currentState == START) {
+			JOptionPane.showMessageDialog(null, "Jason is a mouse","HINT",JOptionPane.WARNING_MESSAGE);
+		}
 		if (arg0.getKeyCode() == KeyEvent.VK_RIGHT && currentState == START) {
 			try {
 				Thread.sleep(1000);
@@ -238,6 +240,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stud
 
 	}
+	int first = 0;
 	int screw = 0;
 	int bone = 0;
 	int code = 0;
@@ -259,16 +262,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				if (x>713&&x<784&&y>390&&y<444) {
 					System.out.println("s");
 					if (underBed == 0) {
-						underBed = 1;
 						JOptionPane.showMessageDialog(null, "In the mousehole you find a mouse with a key. "
-								+ "\n\"If you want my key, you'll have to answer my riddle!! \"","Mouse",JOptionPane.INFORMATION_MESSAGE);
-						String input = JOptionPane.showInputDialog("JASON IS DEAD."
+								+ "\n\"If you want my key, you'll have to answer my riddle!! \""
+								+ "\n(if you want a hint leave the question and press h)","Mouse",JOptionPane.INFORMATION_MESSAGE);
+						String input = JOptionPane.showInputDialog(null,"JASON IS DEAD."
 								+ "\nHE HAS AN IRON BAR ACROSS HIS BACK AND THERE IS SOME FOOD IN FRONT OF HIM."
-								+ "\nWHAT DID THIS TO HIM?");
+								+ "\nWHAT DID THIS TO HIM?","Riddle",JOptionPane.QUESTION_MESSAGE);
 						
 							if(input.equals("A mousetrap")|| input.equals("a mousetrap")||input.equals("Mousetrap")||input.equals("mousetrap")) {
 								JOptionPane.showMessageDialog(null, "Correct! Here you go (the mouse gives you the key)","Mouse",JOptionPane.INFORMATION_MESSAGE);
 								key = 1;
+								underBed = 1;
 							}
 							else {
 								JOptionPane.showMessageDialog(null, "WRONG","Mouse",JOptionPane.ERROR_MESSAGE);
@@ -286,7 +290,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					JOptionPane.showMessageDialog(null, "The key unlocks the door(up arrow to go through)");
 					}
 					if(key == 0) {
-					JOptionPane.showMessageDialog(null, "The door is locked.. You need a key..","Door",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The door is locked.. You need a key..","Door",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				if(x<=810&&x>=707&&y<=534&&y>=498) {
@@ -298,7 +302,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			if(currentState == LEFT) {
 				if(x>=54&&x<=131&&y>=110&&y<=180) {
 					if(screw==0) {
-						JOptionPane.showMessageDialog(null, "You can't open the vent, you probably need a screwdriver.","Vent",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "You can't open the vent, you probably need a screwdriver.","Vent",JOptionPane.ERROR_MESSAGE);
 
 					}
 					if(screw==1) {
@@ -308,11 +312,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					}
 				}
 				if(x>=12&&x<=197&&y>=327&&y<=573) {
-					JOptionPane.showMessageDialog(null, "Psst... Can you do me a favor?"
+					
+					if(first == 0) {
+					String cherry = JOptionPane.showInputDialog(null, "Hey... What's black and white with a cherry on top?",
+							"Mystery Dog",JOptionPane.QUESTION_MESSAGE);
+					if(cherry.equals("A police car")||cherry.equals("a police car")) {
+						JOptionPane.showMessageDialog(null, "Yeah... story of my life..","Mystery Dog",JOptionPane.INFORMATION_MESSAGE);
+						first = 1;
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No.. a police car...","Mystery Dog",JOptionPane.ERROR_MESSAGE);
+						first = 1;
+					}
+					}
+					JOptionPane.showMessageDialog(null, "Hey I know... can you do me a favor?"
 							+ "\nI'm looking for a bone.. If you find it let me know","Mystery Dog",JOptionPane.QUESTION_MESSAGE);
 					if(bone == 1) {
 						JOptionPane.showMessageDialog(null, "Oh you have it! Here take this crowbar that I happen to have :)","Mystery Dog",JOptionPane.INFORMATION_MESSAGE);
-						JOptionPane.showMessageDialog(null, "You recived a crowbar from the dog.","Mystery Dog",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "You recived a crowbar from the dog.","Mystery Dog",JOptionPane.WARNING_MESSAGE);
 						crowbar = 1;
 					}
 					
