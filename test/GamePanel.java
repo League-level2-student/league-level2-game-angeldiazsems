@@ -27,7 +27,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	ImageLoader dog = new ImageLoader("DOG WITH BOWL.png");
 	ImageLoader celldoor = new ImageLoader("door2.png");
 	ImageLoader steps = new ImageLoader("stepsDown.jpg");
-	ImageLoader hall = new ImageLoader("board door.png");
+	ImageLoader hall = new ImageLoader("BOARD DOOR.png");
+	ImageLoader hall2 = new ImageLoader("keypadd.png");
 	ImageLoader vent = new ImageLoader("Vent with paper.png");
 
 	Timer FrameDraw;
@@ -117,9 +118,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		
 	}
 	void drawHallState(Graphics g) {
+		if(boards == 0) {
 		if (hall.gotImage) {
 			g.drawImage(hall.image, 0, 0, 850, 515, null);
 		}
+		}
+		if(boards == 1) {
+			if(hall2.gotImage) {
+				g.drawImage(hall2.image, 0,0,850,515,null);
+			}
+		}
+		
 	}
 	void drawVentState(Graphics g) {
 		if(vent.gotImage) {
@@ -231,6 +240,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			currentState = LEFT;
 		}
 		
+		if(arg0.getKeyCode()== KeyEvent.VK_UP && currentState == HALLWAY&&KEYPADD == 1) {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		currentState = MENU;
+		}
+		
 		
 	}
 
@@ -240,6 +259,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stud
 
 	}
+	int boards = 0;
+	int KEYPADD = 0;
 	int first = 0;
 	int screw = 0;
 	int bone = 0;
@@ -345,14 +366,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				}
 			}
 			if(currentState == HALLWAY) {
-				if(x>275&&x<570&&y>87&&y<436) {
+				if(x>163&&x<696&&y>110&&y<500) {
 					if(crowbar ==1) {
 						JOptionPane.showMessageDialog(null, "The crowbar broke the boards!","Door",JOptionPane.INFORMATION_MESSAGE);
+						boards = 1;
 					}
 					if(crowbar ==0) {
 						JOptionPane.showMessageDialog(null, "You need something to break the boards","Door",JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
+				
+				if(x>714&&x<827&&y>291&&y<339) {
+					String keypad = JOptionPane.showInputDialog(null, "ENTER 4 DIGIT KEY CODE: ","Keypad",JOptionPane.WARNING_MESSAGE);
+					if(keypad.equals("7263")) {
+						JOptionPane.showMessageDialog(null, "CORRECT(up arrow to go through door)","Keypad",JOptionPane.INFORMATION_MESSAGE);
+						int KEYPADD = 1;
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "INCORRECT","Keypad",JOptionPane.ERROR_MESSAGE);
+					}					
+				}
+
 			}
 			
 //Y IS ALWAYS -20
