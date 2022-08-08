@@ -113,7 +113,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if(steps.gotImage) {
 			g.drawImage(steps.image, 0,0, 850,515, null);
 			g.setColor(Color.white);
-			g.drawString("(down arrow)", 200, 500);
+			g.drawString("(up arrow to continue)", 200, 500);
 		}
 		
 	}
@@ -121,6 +121,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if(boards == 0) {
 		if (hall.gotImage) {
 			g.drawImage(hall.image, 0, 0, 850, 515, null);
+			g.setColor(Color.white);
+			g.drawString("(down arrow to go back)", 200, 500);
+
 		}
 		}
 		if(boards == 1) {
@@ -148,20 +151,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		if(key ==1) {
-		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == RIGHT) {
-			currentState = STEPS;
-			System.out.println("steps");
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-
-		}
-		}
+		
 		
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && currentState == MENU) {
 			
@@ -219,8 +209,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			currentState = START;
 		}
-		
-		if (arg0.getKeyCode() == KeyEvent.VK_DOWN && currentState == STEPS) {
+		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == STEPS) {
 			System.out.println("hall");
 			try {
 				Thread.sleep(1000);
@@ -230,6 +219,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			currentState = HALLWAY;
 		}
+		if (arg0.getKeyCode() == KeyEvent.VK_DOWN && currentState == STEPS) {
+			System.out.println("right");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			currentState = RIGHT;
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_DOWN && currentState == HALLWAY) {
+			System.out.println("steps");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			currentState = STEPS;
+		}
+		
 		if(arg0.getKeyCode() == KeyEvent.VK_DOWN && currentState == VENT) {
 			try {
 				Thread.sleep(1000);
@@ -268,6 +278,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	int underBed = 0;
 	int key = 0;
 	int crowbar =0;
+	int afterkey = 0;
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -307,12 +318,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			if(currentState == RIGHT) {
 				if(x <= 718 && x >= 125 && y <= 482 && y >= 6) {
-					if(key == 1) {
-					JOptionPane.showMessageDialog(null, "The key unlocks the door(up arrow to go through)");
+					if(key == 1 && afterkey == 0) {
+					JOptionPane.showMessageDialog(null, "The key unlocks the door(click to go through)");
+					afterkey = 1;
 					}
 					if(key == 0) {
 					JOptionPane.showMessageDialog(null, "The door is locked.. You need a key..","Door",JOptionPane.ERROR_MESSAGE);
 					}
+					
+					if(afterkey == 1) {
+						if (currentState == RIGHT) {
+							System.out.println("steps");
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							currentState = STEPS;
+						}
+						}
 				}
 				if(x<=810&&x>=707&&y<=534&&y>=498) {
 					bone = 1;
@@ -367,7 +392,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			if(currentState == HALLWAY) {
 				if(x>163&&x<696&&y>110&&y<500) {
-					if(crowbar ==1) {
+					if(crowbar ==1 && boards == 0) {
 						JOptionPane.showMessageDialog(null, "The crowbar broke the boards!","Door",JOptionPane.INFORMATION_MESSAGE);
 						boards = 1;
 					}
@@ -378,7 +403,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				
 				if(x>714&&x<827&&y>291&&y<339) {
 					String keypad = JOptionPane.showInputDialog(null, "ENTER 4 DIGIT KEY CODE: ","Keypad",JOptionPane.WARNING_MESSAGE);
-					if(keypad.equals("7263")) {
+					if(keypad.equals("7362")) {
 						JOptionPane.showMessageDialog(null, "CORRECT(up arrow to go through door)","Keypad",JOptionPane.INFORMATION_MESSAGE);
 						int KEYPADD = 1;
 					}
