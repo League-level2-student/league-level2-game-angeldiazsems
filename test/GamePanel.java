@@ -37,11 +37,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	ImageLoader hall = new ImageLoader("BOARD DOOR.png");
 	ImageLoader hall2 = new ImageLoader("keypadd.png");
 	ImageLoader vent = new ImageLoader("Vent with paper.png");
+	ImageLoader paradise = new ImageLoader("grass.jpg");
 
 	Timer FrameDraw;
 	Font titleFont = new Font("Utopia", Font.PLAIN, 48);
 	Font small = new Font("Utopia", Font.PLAIN, 40);
-
+	Font smallee = new Font("Utoptia", Font.PLAIN, 30);
+	Font smaller = new Font("Utoptia", Font.PLAIN, 23);
 	GamePanel() {
 
 		FrameDraw = new Timer(1000 / 60, this);
@@ -71,6 +73,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (currentState == VENT) {
 			drawVentState(g);
 		}
+		if (currentState == PARADISE) {
+			drawParadiseState(g);
+		}
 	}
 
 	final int MENU = 0;
@@ -80,6 +85,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	final int STEPS = 4;
 	final int HALLWAY = 5;
 	final int VENT = 6;
+	final int PARADISE = 7;
 
 	int currentState = MENU;
 
@@ -166,6 +172,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			g.drawString("(down arrow to get back)", 200, 200);
 		}
 	}
+	void drawParadiseState(Graphics g) {
+		if (paradise.gotImage) {
+			g.drawImage(paradise.image, 0, 0, 850, 515, null);
+			g.setFont(titleFont);
+			g.setColor(Color.blue);
+			g.drawString("You've escaped...", 260, 100);
+			g.setFont(smaller);
+			g.drawString("Once you left the pound, you quickly decided you want nothing to do",30 ,351 );
+			g.drawString("with humans anymore. And after months of wandering, you finally ", 30, 391);
+			g.drawString("found a paradise where you can live out the rest of your dog life in peace.", 5, 431);
+			g.setColor(Color.white);
+			g.setFont(smallee);
+			g.drawString("THE END", 350, 500);
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -238,7 +259,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			currentState = START;
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == STEPS) {
-			System.out.println("hall");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -248,7 +268,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			currentState = HALLWAY;
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_DOWN && currentState == STEPS) {
-			System.out.println("right");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -258,7 +277,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			currentState = RIGHT;
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_DOWN && currentState == HALLWAY) {
-			System.out.println("steps");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -278,15 +296,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			currentState = LEFT;
 		}
 
-		if (arg0.getKeyCode() == KeyEvent.VK_UP && currentState == HALLWAY && KEYPADD == 1) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			currentState = MENU;
-		}
 
 	}
 
@@ -311,7 +320,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println(arg0.getLocationOnScreen());
+		arg0.getLocationOnScreen();
 		int x = arg0.getX();
 		int y = arg0.getY();
 		if (currentState == START) {
@@ -322,7 +331,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 			}
 			if (x > 713 && x < 784 && y > 390 && y < 444) {
-				System.out.println("s");
 				if (underBed == 0) {
 					JOptionPane.showMessageDialog(null,
 							"In the mousehole you find a mouse with a key. "
@@ -355,7 +363,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			if (x <= 718 && x >= 125 && y <= 482 && y >= 6) {
 				if (afterkey == 1) {
 					if (currentState == RIGHT) {
-						System.out.println("steps");
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
@@ -445,19 +452,31 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					JOptionPane.showMessageDialog(null, "You need something to break the boards", "Door",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
+				
+				if (KEYPADD == 1 && boards == 1) {
+					currentState = PARADISE;
+				}
 			}
 
 			if (x > 714 && x < 827 && y > 291 && y < 339) {
+				if(KEYPADD == 0) {
 				String keypad = JOptionPane.showInputDialog(null, "ENTER 4 DIGIT KEY CODE: ", "Keypad",
 						JOptionPane.WARNING_MESSAGE);
 				if (keypad.equals("7362")) {
-					JOptionPane.showMessageDialog(null, "CORRECT(up arrow to go through door)", "Keypad",
+					JOptionPane.showMessageDialog(null, "CORRECT", "Keypad",
 							JOptionPane.INFORMATION_MESSAGE);
-					int KEYPADD = 1;
+					KEYPADD = 1;
 				} else {
 					JOptionPane.showMessageDialog(null, "INCORRECT", "Keypad", JOptionPane.ERROR_MESSAGE);
 				}
+				}
 			}
+			
+			
+			
+			
+			
+			
 
 		}
 
